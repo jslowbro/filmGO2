@@ -1,10 +1,10 @@
 package com.mycompany.filmgo.service.dto;
 
-import com.mycompany.filmgo.domain.Person;
 import com.mycompany.filmgo.domain.enumeration.Role;
+import java.io.Serializable;
 import java.util.List;
 
-public class RoleListDTO {
+public class RoleListDTO implements Serializable {
     private Role role;
     private List<PersonDTO> personList;
 
