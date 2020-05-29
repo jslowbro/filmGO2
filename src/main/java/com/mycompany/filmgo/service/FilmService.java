@@ -1,7 +1,7 @@
 package com.mycompany.filmgo.service;
 
 import com.mycompany.filmgo.service.dto.FilmDTO;
-
+import com.mycompany.filmgo.service.dto.FilmWithRatingsDTO;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +9,6 @@ import java.util.Optional;
  * Service Interface for managing {@link com.mycompany.filmgo.domain.Film}.
  */
 public interface FilmService {
-
     /**
      * Save a film.
      *
@@ -25,7 +24,6 @@ public interface FilmService {
      */
     List<FilmDTO> findAll();
 
-
     /**
      * Get the "id" film.
      *
@@ -40,4 +38,6 @@ public interface FilmService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    Optional<FilmWithRatingsDTO> findOneWithRatings(Long id);
 }

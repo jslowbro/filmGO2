@@ -1,21 +1,20 @@
 package com.mycompany.filmgo.web.rest;
 
 import com.mycompany.filmgo.service.ReviewService;
-import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
 import com.mycompany.filmgo.service.dto.ReviewDTO;
-
+import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.mycompany.filmgo.domain.Review}.
@@ -23,7 +22,6 @@ import java.util.Optional;
 @RestController
 @RequestMapping("/api")
 public class ReviewResource {
-
     private final Logger log = LoggerFactory.getLogger(ReviewResource.class);
 
     private static final String ENTITY_NAME = "review";
@@ -51,7 +49,8 @@ public class ReviewResource {
             throw new BadRequestAlertException("A new review cannot already have an ID", ENTITY_NAME, "idexists");
         }
         ReviewDTO result = reviewService.save(reviewDTO);
-        return ResponseEntity.created(new URI("/api/reviews/" + result.getId()))
+        return ResponseEntity
+            .created(new URI("/api/reviews/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -72,7 +71,8 @@ public class ReviewResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         ReviewDTO result = reviewService.save(reviewDTO);
-        return ResponseEntity.ok()
+        return ResponseEntity
+            .ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, reviewDTO.getId().toString()))
             .body(result);
     }
@@ -83,9 +83,14 @@ public class ReviewResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of reviews in body.
      */
     @GetMapping("/reviews")
-    public List<ReviewDTO> getAllReviews() {
-        log.debug("REST request to get all Reviews");
-        return reviewService.findAll();
+    public List<ReviewDTO> getAllReviews(@RequestParam(required = false) Long filmId) {
+        if (Objects.isNull(filmId)) {
+            log.debug("REST request to get all Reviews");
+            return reviewService.findAll();
+        } else {
+            log.debug("REST request to get reviews by film id = {}", filmId);
+            return reviewService.findByFilmId(filmId);
+        }
     }
 
     /**
@@ -112,6 +117,9 @@ public class ReviewResource {
         log.debug("REST request to delete Review : {}", id);
 
         reviewService.delete(id);
-        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
+        return ResponseEntity
+            .noContent()
+            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .build();
     }
 }

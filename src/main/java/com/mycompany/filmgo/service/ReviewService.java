@@ -1,7 +1,6 @@
 package com.mycompany.filmgo.service;
 
 import com.mycompany.filmgo.service.dto.ReviewDTO;
-
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +8,6 @@ import java.util.Optional;
  * Service Interface for managing {@link com.mycompany.filmgo.domain.Review}.
  */
 public interface ReviewService {
-
     /**
      * Save a review.
      *
@@ -25,7 +23,6 @@ public interface ReviewService {
      */
     List<ReviewDTO> findAll();
 
-
     /**
      * Get the "id" review.
      *
@@ -40,4 +37,6 @@ public interface ReviewService {
      * @param id the id of the entity.
      */
     void delete(Long id);
+
+    List<ReviewDTO> findByFilmId(Long id);
 }
