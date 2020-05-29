@@ -40,4 +40,6 @@ public interface FilmService {
     void delete(Long id);
 
     Optional<FilmWithRatingsDTO> findOneWithRatings(Long id);
+
+    List<FilmDTO> findByPersonId(Long id);
 }

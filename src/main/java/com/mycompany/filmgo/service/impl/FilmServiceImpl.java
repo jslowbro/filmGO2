@@ -1,9 +1,11 @@
 package com.mycompany.filmgo.service.impl;
 
 import com.mycompany.filmgo.domain.Film;
+import com.mycompany.filmgo.domain.PersonContainer;
 import com.mycompany.filmgo.domain.Rating;
 import com.mycompany.filmgo.domain.Review;
 import com.mycompany.filmgo.repository.FilmRepository;
+import com.mycompany.filmgo.repository.PersonContainerRepository;
 import com.mycompany.filmgo.repository.RatingRepository;
 import com.mycompany.filmgo.repository.ReviewRepository;
 import com.mycompany.filmgo.service.FilmService;
@@ -31,6 +33,7 @@ public class FilmServiceImpl implements FilmService {
     private final FilmRepository filmRepository;
     private final RatingRepository ratingRepository;
     private final ReviewRepository reviewRepository;
+    private final PersonContainerRepository personContainerRepository;
 
     private final FilmMapper filmMapper;
 
@@ -38,11 +41,13 @@ public class FilmServiceImpl implements FilmService {
         FilmRepository filmRepository,
         RatingRepository ratingRepository,
         ReviewRepository reviewRepository,
+        PersonContainerRepository personContainerRepository,
         FilmMapper filmMapper
     ) {
         this.filmRepository = filmRepository;
         this.ratingRepository = ratingRepository;
         this.reviewRepository = reviewRepository;
+        this.personContainerRepository = personContainerRepository;
         this.filmMapper = filmMapper;
     }
 
@@ -116,6 +121,16 @@ public class FilmServiceImpl implements FilmService {
         } else {
             return Optional.empty();
         }
+    }
+
+    @Override
+    public List<FilmDTO> findByPersonId(Long id) {
+        return personContainerRepository
+            .findByPersonId(id)
+            .stream()
+            .map(PersonContainer::getFilm)
+            .map(filmMapper::toDto)
+            .collect(Collectors.toList());
     }
 
     private Double getAudienceRating(Long filmId) {

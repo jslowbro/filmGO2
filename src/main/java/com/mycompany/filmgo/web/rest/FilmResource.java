@@ -83,7 +83,10 @@ public class FilmResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of films in body.
      */
     @GetMapping("/films")
-    public List<FilmDTO> getAllFilms() {
+    public List<FilmDTO> getAllFilms(@RequestParam(required = false) Long personId) {
+        if (Objects.nonNull(personId)) {
+            return filmService.findByPersonId(personId);
+        }
         log.debug("REST request to get all Films");
         return filmService.findAll();
     }
