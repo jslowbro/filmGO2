@@ -27,6 +27,7 @@ export class ReviewUpdateComponent implements OnInit {
 
   editForm = this.fb.group({
     id: [],
+    title: [],
     text: [],
     value: [],
     filmId: [],
@@ -56,6 +57,7 @@ export class ReviewUpdateComponent implements OnInit {
   updateForm(review: IReview): void {
     this.editForm.patchValue({
       id: review.id,
+      title: review.title,
       text: review.text,
       value: review.value,
       filmId: review.filmId,
@@ -97,6 +99,7 @@ export class ReviewUpdateComponent implements OnInit {
     return {
       ...new Review(),
       id: this.editForm.get(['id'])!.value,
+      title: this.editForm.get(['title'])!.value,
       text: this.editForm.get(['text'])!.value,
       value: this.editForm.get(['value'])!.value,
       filmId: this.editForm.get(['filmId'])!.value,

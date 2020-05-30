@@ -1,10 +1,8 @@
 package com.mycompany.filmgo.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
-import javax.persistence.*;
-
 import java.io.Serializable;
+import javax.persistence.*;
 
 /**
  * A Review.
@@ -12,12 +10,14 @@ import java.io.Serializable;
 @Entity
 @Table(name = "review")
 public class Review implements Serializable {
-
     private static final long serialVersionUID = 1L;
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "title")
+    private String title;
 
     @Lob
     @Column(name = "text")
@@ -49,6 +49,19 @@ public class Review implements Serializable {
 
     public Review text(String text) {
         this.text = text;
+        return this;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public Review title(String title) {
+        this.title = title;
         return this;
     }
 
@@ -94,6 +107,7 @@ public class Review implements Serializable {
     public void setUser(User user) {
         this.user = user;
     }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -116,9 +130,12 @@ public class Review implements Serializable {
     @Override
     public String toString() {
         return "Review{" +
-            "id=" + getId() +
-            ", text='" + getText() + "'" +
-            ", value=" + getValue() +
-            "}";
+            "id=" + id +
+            ", title='" + title + '\'' +
+            ", text='" + text + '\'' +
+            ", value=" + value +
+            ", film=" + film +
+            ", user=" + user +
+            '}';
     }
 }

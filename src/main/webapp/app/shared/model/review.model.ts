@@ -1,5 +1,6 @@
 export interface IReview {
   id?: number;
+  title?: string;
   text?: any;
   value?: number;
   filmId?: number;
@@ -10,6 +11,7 @@ export interface IReview {
 export class Review implements IReview {
   constructor(
     public id?: number,
+    title?: string,
     public text?: any,
     public value?: number,
     public filmId?: number,

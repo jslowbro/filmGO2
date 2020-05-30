@@ -7,21 +7,29 @@ import javax.persistence.Lob;
  * A DTO for the {@link com.mycompany.filmgo.domain.Review} entity.
  */
 public class ReviewDTO implements Serializable {
-    
     private Long id;
 
     @Lob
     private String text;
 
-    private Integer value;
+    private String title;
 
+    private Integer value;
 
     private Long filmId;
 
     private Long userId;
 
     private String userLogin;
-    
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
     public Long getId() {
         return id;
     }
@@ -88,15 +96,17 @@ public class ReviewDTO implements Serializable {
     }
 
     // prettier-ignore
+
     @Override
     public String toString() {
         return "ReviewDTO{" +
-            "id=" + getId() +
-            ", text='" + getText() + "'" +
-            ", value=" + getValue() +
-            ", filmId=" + getFilmId() +
-            ", userId=" + getUserId() +
-            ", userLogin='" + getUserLogin() + "'" +
-            "}";
+            "id=" + id +
+            ", text='" + text + '\'' +
+            ", title='" + title + '\'' +
+            ", value=" + value +
+            ", filmId=" + filmId +
+            ", userId=" + userId +
+            ", userLogin='" + userLogin + '\'' +
+            '}';
     }
 }

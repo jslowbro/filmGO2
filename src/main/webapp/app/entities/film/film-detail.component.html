@@ -52,7 +52,7 @@
         <div class="card">
             <div class="card-header">
                 <span>
-                    Review title
+                    {{review.title}}
                     <h6 style="float: right"> {{review.value}}/10
                         <fa-icon icon="asterisk" style="color: gold;"
                                  *ngFor="let i of getStarsForReview(review)"></fa-icon>
