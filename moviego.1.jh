@@ -15,6 +15,7 @@ entity Comment {
 }
 
 entity Review {
+	title String,
     text TextBlob,
     value Integer
 }
