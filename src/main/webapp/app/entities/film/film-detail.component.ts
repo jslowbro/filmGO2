@@ -15,7 +15,7 @@ import { IRoleList } from 'app/shared/model/person-container.model';
 export class FilmDetailComponent implements OnInit {
   film: IFilmWithRatings | null = null;
   reviews: IReview[] | null = null;
-  roleList: IRoleList[] | null = null;
+  roleListings: IRoleList[] | null = null;
 
   constructor(
     protected activatedRoute: ActivatedRoute,
@@ -30,9 +30,8 @@ export class FilmDetailComponent implements OnInit {
       this.reviewService.findByFilmId(film.id).subscribe((res: HttpResponse<IReview[]>) => (this.reviews = res.body || null));
       this.personContainerService
         .findRoleListForFilm(film.id)
-        .subscribe((res: HttpResponse<IRoleList[]>) => (this.roleList = res.body || null));
+        .subscribe((res: HttpResponse<IRoleList[]>) => (this.roleListings = res.body || null));
     });
-    //    this.filmService.query().subscribe((res: HttpResponse<IFilm[]>) => (this.films = res.body || []));
   }
 
   previousState(): void {
@@ -41,7 +40,8 @@ export class FilmDetailComponent implements OnInit {
 
   test(): void {
     console.log(this.film);
+    console.log(this.film?.releaseDate?.format('YYYY/MM/DD'));
     console.log(this.reviews);
-    console.log(this.roleList);
+    console.log(this.roleListings);
   }
 }

@@ -1,41 +1,49 @@
-<div class="row justify-content-center">
-    <div class="col-8">
-        <div *ngIf="film">
-            <h2><span>Film</span> {{ film.id }}</h2>
+<div class="container">
+    <div class="row justify-content-center">
+        <div *ngIf="film" class="row container-fluid">
+            <div class="col-md-3">
+                <img src="/content/images/american-sniper.png" style="max-height: 100%; max-width: 100%">
+            </div>
+            <div class="col-md-6">
+                <h2>
+                    <span>{{film.title}}    </span>
+                </h2>
 
-            <hr>
+                <hr>
+                <h6>
+                    <span>Audience : {{film.audienceRating  }}
+                        <fa-icon icon="asterisk" style="color: yellow; border-color: black"></fa-icon>  </span>
+                </h6>
+                <h6>
+                    <span>Critics : {{film.criticsRating  }}
+                        <fa-icon icon="asterisk" style="color: yellow; border-color: black"></fa-icon>  </span>
+                </h6>
+                <hr>
+                <jhi-alert-error></jhi-alert-error>
 
-            <jhi-alert-error></jhi-alert-error>
+                <dl class="row-md jh-entity-details">
+                    <dt><span>Description</span></dt>
+                    <dd>
+                        <span>{{ film.description }}</span>
+                    </dd>
+                    <dt><span>Release Date</span></dt>
+                    <dd>
+                        <span>{{ film.releaseDate | dateformatter }}</span>
+                    </dd>
+                    <div *ngFor="let roleList of roleListings">
+                        <dt><span>{{roleList.role | lowercase }}s</span></dt>
+                        <ul class="list-group list-group-horizontal list-group-flush">
+                            <li class="list-group-item" style="border-top: 0 none; border-bottom: 0 none" *ngFor="let person of roleList.personList">
+                                <div routerLink="/person/{{person.id}}/view">    {{person.name}} {{person.surname}} </div>
+                            </li>
+                        </ul>
+                    </div>
 
-            <dl class="row-md jh-entity-details">
-                <dt><span>Title</span></dt>
-                <dd>
-                    <span>{{ film.title }}</span>
-                </dd>
-                <dt><span>Description</span></dt>
-                <dd>
-                    <span>{{ film.description }}</span>
-                </dd>
-                <dt><span>Release Date</span></dt>
-                <dd>
-                    <span>{{ film.releaseDate }}</span>
-                </dd>
-            </dl>
-
-            <button type="submit"
-                    (click)="previousState()"
-                    class="btn btn-info">
-                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
-            </button>
-
-            <button type="button"
-                    [routerLink]="['/film', film.id, 'edit']"
-                    class="btn btn-primary">
-                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
-            </button>
-            <label (click)="test()">
-                Click me to test
-            </label>
+                </dl>
+                <label (click)="test()">
+                    Click me to test
+                </label>
+            </div>
         </div>
     </div>
 </div>

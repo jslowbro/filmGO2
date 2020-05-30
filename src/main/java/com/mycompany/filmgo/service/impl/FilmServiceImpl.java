@@ -12,6 +12,8 @@ import com.mycompany.filmgo.service.FilmService;
 import com.mycompany.filmgo.service.dto.FilmDTO;
 import com.mycompany.filmgo.service.dto.FilmWithRatingsDTO;
 import com.mycompany.filmgo.service.mapper.FilmMapper;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -135,11 +137,18 @@ public class FilmServiceImpl implements FilmService {
 
     private Double getAudienceRating(Long filmId) {
         OptionalDouble audienceRating = ratingRepository.findByFilmId(filmId).stream().mapToInt(Rating::getValue).average();
-        return audienceRating.isPresent() ? audienceRating.getAsDouble() : 0;
+        return audienceRating.isPresent() ? round(audienceRating.getAsDouble(), 2) : 0;
     }
 
     private Double getCriticsRating(Long filmId) {
         OptionalDouble criticsRating = reviewRepository.findByFilmId(filmId).stream().mapToInt(Review::getValue).average();
-        return criticsRating.isPresent() ? criticsRating.getAsDouble() : 0;
+        return criticsRating.isPresent() ? round(criticsRating.getAsDouble(), 2) : 0;
+    }
+
+    private double round(double value, int places) {
+        if (places < 0) throw new IllegalArgumentException();
+        BigDecimal bd = new BigDecimal(Double.toString(value));
+        bd = bd.setScale(places, RoundingMode.HALF_UP);
+        return bd.doubleValue();
     }
 }
