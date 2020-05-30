@@ -1,20 +1,21 @@
 package com.mycompany.filmgo.web.rest;
 
 import com.mycompany.filmgo.service.FilmService;
-import com.mycompany.filmgo.service.dto.FilmDTO;
 import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
+import com.mycompany.filmgo.service.dto.FilmDTO;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.mycompany.filmgo.domain.Film}.
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class FilmResource {
+
     private final Logger log = LoggerFactory.getLogger(FilmResource.class);
 
     private static final String ENTITY_NAME = "film";
@@ -49,8 +51,7 @@ public class FilmResource {
             throw new BadRequestAlertException("A new film cannot already have an ID", ENTITY_NAME, "idexists");
         }
         FilmDTO result = filmService.save(filmDTO);
-        return ResponseEntity
-            .created(new URI("/api/films/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/films/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -71,8 +72,7 @@ public class FilmResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         FilmDTO result = filmService.save(filmDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, filmDTO.getId().toString()))
             .body(result);
     }
@@ -83,10 +83,7 @@ public class FilmResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of films in body.
      */
     @GetMapping("/films")
-    public List<FilmDTO> getAllFilms(@RequestParam(required = false) Long personId) {
-        if (Objects.nonNull(personId)) {
-            return filmService.findByPersonId(personId);
-        }
+    public List<FilmDTO> getAllFilms() {
         log.debug("REST request to get all Films");
         return filmService.findAll();
     }
@@ -98,10 +95,7 @@ public class FilmResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the filmDTO, or with status {@code 404 (Not Found)}.
      */
     @GetMapping("/films/{id}")
-    public ResponseEntity<?> getFilm(@PathVariable Long id, @RequestParam(required = false) Boolean rating) {
-        if (Objects.nonNull(rating) && rating) {
-            return ResponseUtil.wrapOrNotFound(filmService.findOneWithRatings(id));
-        }
+    public ResponseEntity<FilmDTO> getFilm(@PathVariable Long id) {
         log.debug("REST request to get Film : {}", id);
         Optional<FilmDTO> filmDTO = filmService.findOne(id);
         return ResponseUtil.wrapOrNotFound(filmDTO);
@@ -118,9 +112,6 @@ public class FilmResource {
         log.debug("REST request to delete Film : {}", id);
 
         filmService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

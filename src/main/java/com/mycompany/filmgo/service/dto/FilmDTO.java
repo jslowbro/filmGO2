@@ -1,12 +1,13 @@
 package com.mycompany.filmgo.service.dto;
 
-import java.io.Serializable;
 import java.time.Instant;
+import java.io.Serializable;
 
 /**
  * A DTO for the {@link com.mycompany.filmgo.domain.Film} entity.
  */
 public class FilmDTO implements Serializable {
+    
     private Long id;
 
     private String title;
@@ -15,15 +16,7 @@ public class FilmDTO implements Serializable {
 
     private Instant releaseDate;
 
-    public FilmDTO(Long id, String title, String description, Instant releaseDate) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.releaseDate = releaseDate;
-    }
-
-    public FilmDTO() {}
-
+    
     public Long getId() {
         return id;
     }

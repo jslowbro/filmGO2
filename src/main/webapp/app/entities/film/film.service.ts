@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as moment from 'moment';
@@ -7,10 +7,9 @@ import * as moment from 'moment';
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
 import { IFilm } from 'app/shared/model/film.model';
-import { IFilmWithRatings } from 'app/shared/model/filmwithratings.model';
 
-type EntityResponseType = HttpResponse<IFilmWithRatings | IFilm>;
-type EntityArrayResponseType = HttpResponse<IFilmWithRatings[] | IFilm[]>;
+type EntityResponseType = HttpResponse<IFilm>;
+type EntityArrayResponseType = HttpResponse<IFilm[]>;
 
 @Injectable({ providedIn: 'root' })
 export class FilmService {
@@ -38,29 +37,12 @@ export class FilmService {
       .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
   }
 
-  findWithRatings(id: number, rating: boolean): Observable<EntityResponseType> {
-    const httpParams = new HttpParams().set('rating', String(rating));
-    return this.http
-      .get<IFilmWithRatings>(`${this.resourceUrl}/${id}`, { params: httpParams, observe: 'response' })
-      .pipe(map((res: EntityResponseType) => this.convertDateFromServer(res)));
-  }
-
   query(req?: any): Observable<EntityArrayResponseType> {
     const options = createRequestOption(req);
     return this.http
       .get<IFilm[]>(this.resourceUrl, { params: options, observe: 'response' })
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
-
-  //
-  // findByPersonId(id: number, ratings: boolean): Observable<EntityArrayResponseType> {
-  //   const params = new HttpParams();
-  //   params.append("rating", String(ratings));
-  //   return this.http
-  //     .get<IFilm[]>(this.resourceUrl, {params: params, observe: 'response'})
-  //     .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-  //
-  // }
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });

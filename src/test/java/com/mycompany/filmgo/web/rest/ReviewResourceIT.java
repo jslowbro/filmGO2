@@ -33,6 +33,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WithMockUser
 public class ReviewResourceIT {
 
+    private static final String DEFAULT_TITLE = "AAAAAAAAAA";
+    private static final String UPDATED_TITLE = "BBBBBBBBBB";
+
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
     private static final String UPDATED_TEXT = "BBBBBBBBBB";
 
@@ -64,6 +67,7 @@ public class ReviewResourceIT {
      */
     public static Review createEntity(EntityManager em) {
         Review review = new Review()
+            .title(DEFAULT_TITLE)
             .text(DEFAULT_TEXT)
             .value(DEFAULT_VALUE);
         return review;
@@ -76,6 +80,7 @@ public class ReviewResourceIT {
      */
     public static Review createUpdatedEntity(EntityManager em) {
         Review review = new Review()
+            .title(UPDATED_TITLE)
             .text(UPDATED_TEXT)
             .value(UPDATED_VALUE);
         return review;
@@ -101,6 +106,7 @@ public class ReviewResourceIT {
         List<Review> reviewList = reviewRepository.findAll();
         assertThat(reviewList).hasSize(databaseSizeBeforeCreate + 1);
         Review testReview = reviewList.get(reviewList.size() - 1);
+        assertThat(testReview.getTitle()).isEqualTo(DEFAULT_TITLE);
         assertThat(testReview.getText()).isEqualTo(DEFAULT_TEXT);
         assertThat(testReview.getValue()).isEqualTo(DEFAULT_VALUE);
     }
@@ -137,6 +143,7 @@ public class ReviewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(review.getId().intValue())))
+            .andExpect(jsonPath("$.[*].title").value(hasItem(DEFAULT_TITLE)))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT.toString())))
             .andExpect(jsonPath("$.[*].value").value(hasItem(DEFAULT_VALUE)));
     }
@@ -152,6 +159,7 @@ public class ReviewResourceIT {
             .andExpect(status().isOk())
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(review.getId().intValue()))
+            .andExpect(jsonPath("$.title").value(DEFAULT_TITLE))
             .andExpect(jsonPath("$.text").value(DEFAULT_TEXT.toString()))
             .andExpect(jsonPath("$.value").value(DEFAULT_VALUE));
     }
@@ -176,6 +184,7 @@ public class ReviewResourceIT {
         // Disconnect from session so that the updates on updatedReview are not directly saved in db
         em.detach(updatedReview);
         updatedReview
+            .title(UPDATED_TITLE)
             .text(UPDATED_TEXT)
             .value(UPDATED_VALUE);
         ReviewDTO reviewDTO = reviewMapper.toDto(updatedReview);
@@ -189,6 +198,7 @@ public class ReviewResourceIT {
         List<Review> reviewList = reviewRepository.findAll();
         assertThat(reviewList).hasSize(databaseSizeBeforeUpdate);
         Review testReview = reviewList.get(reviewList.size() - 1);
+        assertThat(testReview.getTitle()).isEqualTo(UPDATED_TITLE);
         assertThat(testReview.getText()).isEqualTo(UPDATED_TEXT);
         assertThat(testReview.getValue()).isEqualTo(UPDATED_VALUE);
     }

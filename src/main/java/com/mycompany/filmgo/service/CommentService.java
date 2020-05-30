@@ -1,6 +1,7 @@
 package com.mycompany.filmgo.service;
 
 import com.mycompany.filmgo.service.dto.CommentDTO;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -8,6 +9,7 @@ import java.util.Optional;
  * Service Interface for managing {@link com.mycompany.filmgo.domain.Comment}.
  */
 public interface CommentService {
+
     /**
      * Save a comment.
      *
@@ -23,6 +25,7 @@ public interface CommentService {
      */
     List<CommentDTO> findAll();
 
+
     /**
      * Get the "id" comment.
      *
@@ -37,6 +40,4 @@ public interface CommentService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    List<CommentDTO> findByReviewId(Long id);
 }

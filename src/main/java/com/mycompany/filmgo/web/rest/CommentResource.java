@@ -1,20 +1,21 @@
 package com.mycompany.filmgo.web.rest;
 
 import com.mycompany.filmgo.service.CommentService;
-import com.mycompany.filmgo.service.dto.CommentDTO;
 import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
+import com.mycompany.filmgo.service.dto.CommentDTO;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.mycompany.filmgo.domain.Comment}.
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class CommentResource {
+
     private final Logger log = LoggerFactory.getLogger(CommentResource.class);
 
     private static final String ENTITY_NAME = "comment";
@@ -49,8 +51,7 @@ public class CommentResource {
             throw new BadRequestAlertException("A new comment cannot already have an ID", ENTITY_NAME, "idexists");
         }
         CommentDTO result = commentService.save(commentDTO);
-        return ResponseEntity
-            .created(new URI("/api/comments/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/comments/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -71,8 +72,7 @@ public class CommentResource {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         CommentDTO result = commentService.save(commentDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, commentDTO.getId().toString()))
             .body(result);
     }
@@ -83,13 +83,17 @@ public class CommentResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of comments in body.
      */
     @GetMapping("/comments")
-    public List<CommentDTO> getAllComments(@RequestParam(required = false) Long reviewId) {
-        if (Objects.nonNull(reviewId)) {
-            return commentService.findByReviewId(reviewId);
-        }
+    public List<CommentDTO> getAllComments() {
+        log.debug("REST request to get all Comments");
         return commentService.findAll();
     }
 
+    /**
+     * {@code GET  /comments/:id} : get the "id" comment.
+     *
+     * @param id the id of the commentDTO to retrieve.
+     * @return the {@link ResponseEntity} with status {@code 200 (OK)} and with body the commentDTO, or with status {@code 404 (Not Found)}.
+     */
     @GetMapping("/comments/{id}")
     public ResponseEntity<CommentDTO> getComment(@PathVariable Long id) {
         log.debug("REST request to get Comment : {}", id);
@@ -108,9 +112,6 @@ public class CommentResource {
         log.debug("REST request to delete Comment : {}", id);
 
         commentService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

@@ -10,6 +10,8 @@ public class ReviewDTO implements Serializable {
     
     private Long id;
 
+    private String title;
+
     @Lob
     private String text;
 
@@ -28,6 +30,14 @@ public class ReviewDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getText() {
@@ -92,6 +102,7 @@ public class ReviewDTO implements Serializable {
     public String toString() {
         return "ReviewDTO{" +
             "id=" + getId() +
+            ", title='" + getTitle() + "'" +
             ", text='" + getText() + "'" +
             ", value=" + getValue() +
             ", filmId=" + getFilmId() +

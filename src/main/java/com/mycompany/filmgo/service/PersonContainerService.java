@@ -1,7 +1,7 @@
 package com.mycompany.filmgo.service;
 
 import com.mycompany.filmgo.service.dto.PersonContainerDTO;
-import com.mycompany.filmgo.service.dto.RoleListDTO;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -9,6 +9,7 @@ import java.util.Optional;
  * Service Interface for managing {@link com.mycompany.filmgo.domain.PersonContainer}.
  */
 public interface PersonContainerService {
+
     /**
      * Save a personContainer.
      *
@@ -24,6 +25,7 @@ public interface PersonContainerService {
      */
     List<PersonContainerDTO> findAll();
 
+
     /**
      * Get the "id" personContainer.
      *
@@ -38,12 +40,4 @@ public interface PersonContainerService {
      * @param id the id of the entity.
      */
     void delete(Long id);
-
-    List<PersonContainerDTO> findByPersonId(Long personId);
-
-    List<PersonContainerDTO> findByFilmId(Long filmId);
-
-    List<PersonContainerDTO> findByPersonIdAndFilmId(Long personId, Long filmId);
-
-    List<RoleListDTO> sortByRole(List<PersonContainerDTO> personContainerDTOS);
 }

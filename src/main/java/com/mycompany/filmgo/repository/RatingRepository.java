@@ -1,9 +1,11 @@
 package com.mycompany.filmgo.repository;
 
 import com.mycompany.filmgo.domain.Rating;
-import java.util.List;
+
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 /**
  * Spring Data  repository for the Rating entity.
@@ -11,8 +13,7 @@ import org.springframework.stereotype.Repository;
 @SuppressWarnings("unused")
 @Repository
 public interface RatingRepository extends JpaRepository<Rating, Long> {
+
     @Query("select rating from Rating rating where rating.user.login = ?#{principal.username}")
     List<Rating> findByUserIsCurrentUser();
-
-    List<Rating> findByFilmId(Long id);
 }

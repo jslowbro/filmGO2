@@ -1,82 +1,38 @@
-<div class="container">
-    <div class="row justify-content-center">
-        <div *ngIf="film" class="row container-fluid">
-            <div class="col-md-3">
-                <img src="/content/images/american-sniper.png" style="max-height: 100%; max-width: 100%">
-            </div>
-            <div class="col-md-6">
+<div class="row justify-content-center">
+    <div class="col-8">
+        <div *ngIf="film">
+            <h2><span>Film</span> {{ film.id }}</h2>
 
+            <hr>
 
-                <h2>
-                    <span>{{film.title}}    </span>
-                </h2>
+            <jhi-alert-error></jhi-alert-error>
 
-
-                <dt><span>Release Date : <span style="font-weight: normal">{{ film.releaseDate | dateformatter }}</span> </span>
-                </dt>
+            <dl class="row-md jh-entity-details">
+                <dt><span>Title</span></dt>
                 <dd>
-
+                    <span>{{ film.title }}</span>
                 </dd>
+                <dt><span>Description</span></dt>
+                <dd>
+                    <span>{{ film.description }}</span>
+                </dd>
+                <dt><span>Release Date</span></dt>
+                <dd>
+                    <span>{{ film.releaseDate }}</span>
+                </dd>
+            </dl>
 
+            <button type="submit"
+                    (click)="previousState()"
+                    class="btn btn-info">
+                <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Back</span>
+            </button>
 
-                <hr>
-                <div class="row">
-                    <h6 class="col-md">
-                    <span> Audience : {{film.audienceRating  }}
-                        <fa-icon icon="asterisk" style="color: gold; border-color: black"></fa-icon>  </span>
-                    </h6>
-                    <h6 class="col-md">
-                    <span> Critics : {{film.criticsRating  }}
-                        <fa-icon icon="asterisk" style="color: gold; border-color: black"></fa-icon>  </span>
-                    </h6>
-                </div>
-                <hr>
-                <jhi-alert-error></jhi-alert-error>
-
-                <dl class="row-md jh-entity-details">
-                    <dt><span>Description</span></dt>
-                    <dd>
-                        <span>{{ film.description }}</span>
-                    </dd>
-                    <hr>
-                    <div *ngFor="let roleList of roleListings">
-                        <dt><span>{{roleList.role | lowercase }}s</span></dt>
-                        <ul class="list-group list-group-horizontal list-group-flush">
-                            <li class="list-group-item" style="border-top: 0 none; border-bottom: 0 none"
-                                *ngFor="let person of roleList.personList">
-                                <div
-                                    routerLink="/person/{{person.id}}/view">    {{person.name}} {{person.surname}} </div>
-                            </li>
-                        </ul>
-                    </div>
-
-                </dl>
-                <label (click)="test()">
-                    Click me to test
-                </label>
-            </div>
+            <button type="button"
+                    [routerLink]="['/film', film.id, 'edit']"
+                    class="btn btn-primary">
+                <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Edit</span>
+            </button>
         </div>
     </div>
-    <div *ngFor="let review of reviews">
-        <div class="card">
-            <div class="card-header">
-                <span>
-                    Review title
-                    <h6 style="float: right"> {{review.value}}/10
-                        <fa-icon icon="asterisk" style="color: gold;"
-                                 *ngFor="let i of getStarsForReview(review)"></fa-icon>
-                    </h6>
-
-                </span>
-            </div>
-            <div class="card-body">
-                <blockquote class="blockquote mb-0">
-                    <p>{{review.text}}</p>
-                    <footer class="blockquote-footer">{{review.userLogin}}</footer>
-                </blockquote>
-            </div>
-        </div>
-        <hr>
-    </div>
-
 </div>

@@ -1,20 +1,21 @@
 package com.mycompany.filmgo.web.rest;
 
 import com.mycompany.filmgo.service.PersonContainerService;
-import com.mycompany.filmgo.service.dto.PersonContainerDTO;
 import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
+import com.mycompany.filmgo.service.dto.PersonContainerDTO;
+
 import io.github.jhipster.web.util.HeaderUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-import java.net.URI;
-import java.net.URISyntaxException;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing {@link com.mycompany.filmgo.domain.PersonContainer}.
@@ -22,6 +23,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping("/api")
 public class PersonContainerResource {
+
     private final Logger log = LoggerFactory.getLogger(PersonContainerResource.class);
 
     private static final String ENTITY_NAME = "personContainer";
@@ -43,15 +45,13 @@ public class PersonContainerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PostMapping("/person-containers")
-    public ResponseEntity<PersonContainerDTO> createPersonContainer(@RequestBody PersonContainerDTO personContainerDTO)
-        throws URISyntaxException {
+    public ResponseEntity<PersonContainerDTO> createPersonContainer(@RequestBody PersonContainerDTO personContainerDTO) throws URISyntaxException {
         log.debug("REST request to save PersonContainer : {}", personContainerDTO);
         if (personContainerDTO.getId() != null) {
             throw new BadRequestAlertException("A new personContainer cannot already have an ID", ENTITY_NAME, "idexists");
         }
         PersonContainerDTO result = personContainerService.save(personContainerDTO);
-        return ResponseEntity
-            .created(new URI("/api/person-containers/" + result.getId()))
+        return ResponseEntity.created(new URI("/api/person-containers/" + result.getId()))
             .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
@@ -66,15 +66,13 @@ public class PersonContainerResource {
      * @throws URISyntaxException if the Location URI syntax is incorrect.
      */
     @PutMapping("/person-containers")
-    public ResponseEntity<PersonContainerDTO> updatePersonContainer(@RequestBody PersonContainerDTO personContainerDTO)
-        throws URISyntaxException {
+    public ResponseEntity<PersonContainerDTO> updatePersonContainer(@RequestBody PersonContainerDTO personContainerDTO) throws URISyntaxException {
         log.debug("REST request to update PersonContainer : {}", personContainerDTO);
         if (personContainerDTO.getId() == null) {
             throw new BadRequestAlertException("Invalid id", ENTITY_NAME, "idnull");
         }
         PersonContainerDTO result = personContainerService.save(personContainerDTO);
-        return ResponseEntity
-            .ok()
+        return ResponseEntity.ok()
             .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, personContainerDTO.getId().toString()))
             .body(result);
     }
@@ -85,27 +83,9 @@ public class PersonContainerResource {
      * @return the {@link ResponseEntity} with status {@code 200 (OK)} and the list of personContainers in body.
      */
     @GetMapping("/person-containers")
-    public ResponseEntity<?> getAllPersonContainers(
-        @RequestParam(required = false) Long personId,
-        @RequestParam(required = false) Long filmId,
-        @RequestParam(required = false) Boolean sortByRole
-    ) {
-        List<PersonContainerDTO> personContainerDTOS;
-        if (Objects.nonNull(personId) && Objects.nonNull(filmId)) {
-            personContainerDTOS = personContainerService.findByPersonIdAndFilmId(personId, filmId);
-        } else if (Objects.nonNull(personId)) {
-            personContainerDTOS = personContainerService.findByPersonId(personId);
-        } else if (Objects.nonNull(filmId)) {
-            personContainerDTOS = personContainerService.findByFilmId(filmId);
-        } else {
-            personContainerDTOS = personContainerService.findAll();
-        }
+    public List<PersonContainerDTO> getAllPersonContainers() {
         log.debug("REST request to get all PersonContainers");
-        if (Objects.nonNull(sortByRole) && sortByRole) {
-            return ResponseEntity.ok(personContainerService.sortByRole(personContainerDTOS));
-        } else {
-            return ResponseEntity.ok(personContainerDTOS);
-        }
+        return personContainerService.findAll();
     }
 
     /**
@@ -132,9 +112,6 @@ public class PersonContainerResource {
         log.debug("REST request to delete PersonContainer : {}", id);
 
         personContainerService.delete(id);
-        return ResponseEntity
-            .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
-            .build();
+        return ResponseEntity.noContent().headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString())).build();
     }
 }

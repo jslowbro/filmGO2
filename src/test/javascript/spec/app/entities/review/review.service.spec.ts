@@ -20,7 +20,7 @@ describe('Service Tests', () => {
       service = injector.get(ReviewService);
       httpMock = injector.get(HttpTestingController);
 
-      elemDefault = new Review(0, 'AAAAAAA', 0);
+      elemDefault = new Review(0, 'AAAAAAA', 'AAAAAAA', 0);
     });
 
     describe('Service methods', () => {
@@ -54,6 +54,7 @@ describe('Service Tests', () => {
       it('should update a Review', () => {
         const returnedFromService = Object.assign(
           {
+            title: 'BBBBBB',
             text: 'BBBBBB',
             value: 1,
           },
@@ -72,6 +73,7 @@ describe('Service Tests', () => {
       it('should return a list of Review', () => {
         const returnedFromService = Object.assign(
           {
+            title: 'BBBBBB',
             text: 'BBBBBB',
             value: 1,
           },

@@ -2,6 +2,10 @@
   "name": "Review",
   "fields": [
     {
+      "fieldName": "title",
+      "fieldType": "String"
+    },
+    {
       "fieldName": "text",
       "fieldType": "byte[]",
       "fieldTypeBlobContent": "text"

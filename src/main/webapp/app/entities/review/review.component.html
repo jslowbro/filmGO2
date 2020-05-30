@@ -23,6 +23,7 @@
             <thead>
                 <tr>
                     <th scope="col" ><span>ID</span></th>
+                    <th scope="col" ><span>Title</span></th>
                     <th scope="col" ><span>Text</span></th>
                     <th scope="col" ><span>Value</span></th>
                     <th scope="col" ><span>Film</span></th>
@@ -33,6 +34,7 @@
             <tbody>
                 <tr *ngFor="let review of reviews ;trackBy: trackId">
                     <td><a [routerLink]="['/review', review.id, 'view']">{{ review.id }}</a></td>
+                    <td>{{ review.title }}</td>
                     <td>{{ review.text }}</td>
                     <td>{{ review.value }}</td>
                     <td>

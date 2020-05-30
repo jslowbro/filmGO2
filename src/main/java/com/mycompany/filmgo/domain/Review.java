@@ -19,6 +19,9 @@ public class Review implements Serializable {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(name = "title")
+    private String title;
+
     @Lob
     @Column(name = "text")
     private String text;
@@ -41,6 +44,19 @@ public class Review implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public Review title(String title) {
+        this.title = title;
+        return this;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getText() {
@@ -117,6 +133,7 @@ public class Review implements Serializable {
     public String toString() {
         return "Review{" +
             "id=" + getId() +
+            ", title='" + getTitle() + "'" +
             ", text='" + getText() + "'" +
             ", value=" + getValue() +
             "}";
