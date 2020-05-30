@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
@@ -17,6 +17,11 @@ export class ReviewService {
 
   create(review: IReview): Observable<EntityResponseType> {
     return this.http.post<IReview>(this.resourceUrl, review, { observe: 'response' });
+  }
+
+  findByFilmId(id: number): Observable<EntityArrayResponseType> {
+    const httpParams = new HttpParams().set('filmId', String(id));
+    return this.http.get<IReview[]>(this.resourceUrl, { params: httpParams, observe: 'response' });
   }
 
   update(review: IReview): Observable<EntityResponseType> {

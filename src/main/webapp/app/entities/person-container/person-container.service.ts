@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient, HttpParams, HttpResponse } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 import { SERVER_API_URL } from 'app/app.constants';
 import { createRequestOption } from 'app/shared/util/request-util';
-import { IPersonContainer } from 'app/shared/model/person-container.model';
+import { IPersonContainer, IRoleList } from 'app/shared/model/person-container.model';
 
 type EntityResponseType = HttpResponse<IPersonContainer>;
 type EntityArrayResponseType = HttpResponse<IPersonContainer[]>;
@@ -25,6 +25,11 @@ export class PersonContainerService {
 
   find(id: number): Observable<EntityResponseType> {
     return this.http.get<IPersonContainer>(`${this.resourceUrl}/${id}`, { observe: 'response' });
+  }
+
+  findRoleListForFilm(filmId: number): Observable<HttpResponse<IRoleList[]>> {
+    const httpParams = new HttpParams().set('filmId', String(filmId)).set('sortByRole', String(true));
+    return this.http.get<IRoleList[]>(this.resourceUrl, { params: httpParams, observe: 'response' });
   }
 
   query(req?: any): Observable<EntityArrayResponseType> {
