@@ -31,6 +31,7 @@
   },
   "defaultProject": "film-go",
   "cli": {
-    "packageManager": "npm"
+    "packageManager": "npm",
+    "analytics": "a1392d39-a08b-41fd-aeb3-339fff1f51d6"
   }
 }
