@@ -52,15 +52,11 @@ export class FilmService {
       .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
   }
 
-  //
-  // findByPersonId(id: number, ratings: boolean): Observable<EntityArrayResponseType> {
-  //   const params = new HttpParams();
-  //   params.append("rating", String(ratings));
-  //   return this.http
-  //     .get<IFilm[]>(this.resourceUrl, {params: params, observe: 'response'})
-  //     .pipe(map((res: EntityArrayResponseType) => this.convertDateArrayFromServer(res)));
-  //
-  // }
+  findByPersonId(personId: number): Observable<EntityArrayResponseType> {
+    const httpParams = new HttpParams();
+    httpParams.append('personId', String(personId));
+    return this.http.get<IFilm[]>(this.resourceUrl, { params: httpParams, observe: 'response' });
+  }
 
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
