@@ -44,4 +44,8 @@ export class FilmDetailComponent implements OnInit {
     console.log(this.reviews);
     console.log(this.roleListings);
   }
+
+  getStarsForReview(review: IReview): number[] {
+    return Array(review.value).fill(0);
+  }
 }

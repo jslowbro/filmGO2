@@ -1,20 +1,18 @@
 package com.mycompany.filmgo.service.impl;
 
-import com.mycompany.filmgo.service.CommentService;
 import com.mycompany.filmgo.domain.Comment;
 import com.mycompany.filmgo.repository.CommentRepository;
+import com.mycompany.filmgo.service.CommentService;
 import com.mycompany.filmgo.service.dto.CommentDTO;
 import com.mycompany.filmgo.service.mapper.CommentMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Comment}.
@@ -22,7 +20,6 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class CommentServiceImpl implements CommentService {
-
     private final Logger log = LoggerFactory.getLogger(CommentServiceImpl.class);
 
     private final CommentRepository commentRepository;
@@ -57,11 +54,8 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     public List<CommentDTO> findAll() {
         log.debug("Request to get all Comments");
-        return commentRepository.findAll().stream()
-            .map(commentMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return commentRepository.findAll().stream().map(commentMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
-
 
     /**
      * Get one comment by id.
@@ -73,8 +67,7 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     public Optional<CommentDTO> findOne(Long id) {
         log.debug("Request to get Comment : {}", id);
-        return commentRepository.findById(id)
-            .map(commentMapper::toDto);
+        return commentRepository.findById(id).map(commentMapper::toDto);
     }
 
     /**
@@ -87,5 +80,10 @@ public class CommentServiceImpl implements CommentService {
         log.debug("Request to delete Comment : {}", id);
 
         commentRepository.deleteById(id);
+    }
+
+    @Override
+    public List<CommentDTO> findByReviewId(Long id) {
+        return commentRepository.findByReviewId(id).stream().map(commentMapper::toDto).collect(Collectors.toList());
     }
 }
