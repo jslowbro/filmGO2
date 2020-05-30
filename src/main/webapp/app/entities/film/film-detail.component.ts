@@ -7,6 +7,7 @@ import { IReview } from 'app/shared/model/review.model';
 import { ReviewService } from 'app/entities/review/review.service';
 import { PersonContainerService } from 'app/entities/person-container/person-container.service';
 import { IRoleList } from 'app/shared/model/person-container.model';
+import { AccountService } from 'app/core/auth/account.service';
 
 @Component({
   selector: 'jhi-film-detail',
@@ -21,7 +22,8 @@ export class FilmDetailComponent implements OnInit {
     protected activatedRoute: ActivatedRoute,
     protected filmService: FilmService,
     protected reviewService: ReviewService,
-    protected personContainerService: PersonContainerService
+    protected personContainerService: PersonContainerService,
+    protected accountService: AccountService
   ) {}
 
   ngOnInit(): void {
