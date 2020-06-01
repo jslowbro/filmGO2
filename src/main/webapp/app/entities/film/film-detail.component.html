@@ -53,10 +53,24 @@
                     </div>
 
                 </dl>
-                <!--                <label (click)="test()">TEST ME</label>-->
+
             </div>
             <div class="col-md-3">
-                <h3> Rate this film </h3>
+                <h3> Rate this film !</h3>
+                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                    <div class="btn-group mr-2" role="group" aria-label="First group">
+                        <button type="button" class="btn btn-secondary" (click)="addRating(1)" >1</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(2)" >2</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(3)" >3</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(4)" >4</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(5)" >5</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(6)" >6</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(7)" >7</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(8)" >8</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(9)">9</button>
+                        <button type="button" class="btn btn-secondary" (click)="addRating(10)">10</button>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -85,5 +99,34 @@
         </div>
         <hr>
     </div>
-
+    <h3> Add a Review </h3>
+    <form>
+        <div class="form-group">
+            <label for="exampleFormControlInput1">Title</label>
+            <input name="reviewTitle" [(ngModel)]="reviewTitle" class="form-control" id="exampleFormControlInput1" >
+        </div>
+        <div class="form-group">
+            <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                <div class="btn-group mr-2" role="group" aria-label="First group">
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(1)" >1</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(2)" >2</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(3)" >3</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(4)" >4</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(5)" >5</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(6)" >6</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(7)" >7</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(8)" >8</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(9)">9</button>
+                    <button type="button" class="btn btn-secondary" (click)="setReviewRating(10)">10</button>
+                </div>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="exampleFormControlTextarea1">Text</label>
+            <textarea name="reviewText" [(ngModel)]="reviewText" class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+        </div>
+        <div class="form-group">
+            <button class="btn btn-primary" (click)="addReview()"> Add Review </button>
+        </div>
+    </form>
 </div>

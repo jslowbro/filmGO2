@@ -1,11 +1,17 @@
 export interface IRating {
-  id?: number;
-  value?: number;
-  filmId?: number;
-  userLogin?: string;
-  userId?: number;
+  id?: number | null;
+  value?: number | null;
+  filmId?: number | null;
+  userLogin?: string | null;
+  userId?: number | null;
 }
 
 export class Rating implements IRating {
-  constructor(public id?: number, public value?: number, public filmId?: number, public userLogin?: string, public userId?: number) {}
+  constructor(
+    public id?: number | null,
+    public value?: number | null,
+    public filmId?: number | null,
+    public userLogin?: string | null,
+    public userId?: number | null
+  ) {}
 }

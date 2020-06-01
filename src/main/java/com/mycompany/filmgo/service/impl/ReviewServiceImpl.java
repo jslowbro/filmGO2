@@ -1,8 +1,10 @@
 package com.mycompany.filmgo.service.impl;
 
 import com.mycompany.filmgo.domain.Review;
+import com.mycompany.filmgo.domain.User;
 import com.mycompany.filmgo.repository.ReviewRepository;
 import com.mycompany.filmgo.service.ReviewService;
+import com.mycompany.filmgo.service.UserService;
 import com.mycompany.filmgo.service.dto.ReviewDTO;
 import com.mycompany.filmgo.service.mapper.ReviewMapper;
 import java.util.LinkedList;
@@ -26,9 +28,12 @@ public class ReviewServiceImpl implements ReviewService {
 
     private final ReviewMapper reviewMapper;
 
-    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper) {
+    private final UserService userService;
+
+    public ReviewServiceImpl(ReviewRepository reviewRepository, ReviewMapper reviewMapper, UserService userService) {
         this.reviewRepository = reviewRepository;
         this.reviewMapper = reviewMapper;
+        this.userService = userService;
     }
 
     /**
@@ -39,6 +44,12 @@ public class ReviewServiceImpl implements ReviewService {
      */
     @Override
     public ReviewDTO save(ReviewDTO reviewDTO) {
+        if (reviewDTO.getUserId() == null && reviewDTO.getUserLogin() != null) {
+            Optional<User> user = userService.getUserWithAuthoritiesByLogin(reviewDTO.getUserLogin());
+            if (user.isPresent()) {
+                reviewDTO.setUserId(user.get().getId());
+            }
+        }
         log.debug("Request to save Review : {}", reviewDTO);
         Review review = reviewMapper.toEntity(reviewDTO);
         review = reviewRepository.save(review);

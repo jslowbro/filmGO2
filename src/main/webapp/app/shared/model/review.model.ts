@@ -11,7 +11,7 @@ export interface IReview {
 export class Review implements IReview {
   constructor(
     public id?: number,
-    title?: string,
+    public title?: string,
     public text?: any,
     public value?: number,
     public filmId?: number,

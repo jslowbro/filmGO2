@@ -1,20 +1,20 @@
 package com.mycompany.filmgo.service.impl;
 
-import com.mycompany.filmgo.service.RatingService;
 import com.mycompany.filmgo.domain.Rating;
+import com.mycompany.filmgo.domain.User;
 import com.mycompany.filmgo.repository.RatingRepository;
+import com.mycompany.filmgo.service.RatingService;
+import com.mycompany.filmgo.service.UserService;
 import com.mycompany.filmgo.service.dto.RatingDTO;
 import com.mycompany.filmgo.service.mapper.RatingMapper;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 /**
  * Service Implementation for managing {@link Rating}.
@@ -22,16 +22,18 @@ import java.util.stream.Collectors;
 @Service
 @Transactional
 public class RatingServiceImpl implements RatingService {
-
     private final Logger log = LoggerFactory.getLogger(RatingServiceImpl.class);
 
     private final RatingRepository ratingRepository;
 
     private final RatingMapper ratingMapper;
 
-    public RatingServiceImpl(RatingRepository ratingRepository, RatingMapper ratingMapper) {
+    private final UserService userService;
+
+    public RatingServiceImpl(RatingRepository ratingRepository, RatingMapper ratingMapper, UserService userService) {
         this.ratingRepository = ratingRepository;
         this.ratingMapper = ratingMapper;
+        this.userService = userService;
     }
 
     /**
@@ -42,6 +44,12 @@ public class RatingServiceImpl implements RatingService {
      */
     @Override
     public RatingDTO save(RatingDTO ratingDTO) {
+        if (ratingDTO.getUserId() == null && ratingDTO.getUserLogin() != null) {
+            Optional<User> user = userService.getUserWithAuthoritiesByLogin(ratingDTO.getUserLogin());
+            if (user.isPresent()) {
+                ratingDTO.setUserId(user.get().getId());
+            }
+        }
         log.debug("Request to save Rating : {}", ratingDTO);
         Rating rating = ratingMapper.toEntity(ratingDTO);
         rating = ratingRepository.save(rating);
@@ -57,11 +65,8 @@ public class RatingServiceImpl implements RatingService {
     @Transactional(readOnly = true)
     public List<RatingDTO> findAll() {
         log.debug("Request to get all Ratings");
-        return ratingRepository.findAll().stream()
-            .map(ratingMapper::toDto)
-            .collect(Collectors.toCollection(LinkedList::new));
+        return ratingRepository.findAll().stream().map(ratingMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
     }
-
 
     /**
      * Get one rating by id.
@@ -73,8 +78,7 @@ public class RatingServiceImpl implements RatingService {
     @Transactional(readOnly = true)
     public Optional<RatingDTO> findOne(Long id) {
         log.debug("Request to get Rating : {}", id);
-        return ratingRepository.findById(id)
-            .map(ratingMapper::toDto);
+        return ratingRepository.findById(id).map(ratingMapper::toDto);
     }
 
     /**
