@@ -70,8 +70,12 @@ export class FilmDetailComponent implements OnInit {
     this.accountService.identity(true).subscribe(account => {
       if (account !== null) {
         const review = new Review(undefined, this.reviewTitle, this.reviewText, this.reviewValue, this.film?.id, account.login, undefined);
-        console.log(review);
-        this.reviewService.create(review).subscribe((res: HttpResponse<IReview>) => console.log(res.body));
+        this.reviewService.create(review).subscribe((res: HttpResponse<IReview>) => {
+          console.log(res.body);
+          this.reviewTitle = '';
+          this.reviewText = '';
+          this.reviewValue = undefined;
+        });
       }
     });
   }
