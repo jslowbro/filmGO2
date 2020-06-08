@@ -1,0 +1,22 @@
+package com.janchabik.filmgo.domain;
+
+import com.janchabik.filmgo.web.rest.TestUtil;
+import org.junit.jupiter.api.Test;
+import static org.assertj.core.api.Assertions.assertThat;
+
+public class PersonContainerTest {
+
+    @Test
+    public void equalsVerifier() throws Exception {
+        TestUtil.equalsVerifier(PersonContainer.class);
+        PersonContainer personContainer1 = new PersonContainer();
+        personContainer1.setId(1L);
+        PersonContainer personContainer2 = new PersonContainer();
+        personContainer2.setId(personContainer1.getId());
+        assertThat(personContainer1).isEqualTo(personContainer2);
+        personContainer2.setId(2L);
+        assertThat(personContainer1).isNotEqualTo(personContainer2);
+        personContainer1.setId(null);
+        assertThat(personContainer1).isNotEqualTo(personContainer2);
+    }
+}
