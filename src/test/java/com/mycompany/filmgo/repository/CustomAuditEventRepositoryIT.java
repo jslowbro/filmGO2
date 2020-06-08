@@ -29,6 +29,8 @@ import org.springframework.transaction.annotation.Transactional;
 @SpringBootTest(classes = FilmGoApp.class)
 @Transactional
 public class CustomAuditEventRepositoryIT {
+
+
     @Autowired
     private PersistenceAuditEventRepository persistenceAuditEventRepository;
 

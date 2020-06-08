@@ -6,6 +6,8 @@ import com.mycompany.filmgo.web.rest.TestUtil;
 
 public class FilmTest {
 
+
+    
     @Test
     public void equalsVerifier() throws Exception {
         TestUtil.equalsVerifier(Film.class);

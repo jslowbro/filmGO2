@@ -30,6 +30,8 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest(classes = FilmGoApp.class)
 @AutoConfigureMockMvc
 @WithMockUser
+
+
 public class CommentResourceIT {
 
     private static final String DEFAULT_TEXT = "AAAAAAAAAA";
@@ -132,7 +134,7 @@ public class CommentResourceIT {
             .andExpect(jsonPath("$.[*].id").value(hasItem(comment.getId().intValue())))
             .andExpect(jsonPath("$.[*].text").value(hasItem(DEFAULT_TEXT)));
     }
-    
+
     @Test
     @Transactional
     public void getComment() throws Exception {
