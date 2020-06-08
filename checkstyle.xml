@@ -7,6 +7,7 @@
     <property name="charset" value="UTF-8"/>
     <!-- Configure checker to run on files with these extensions -->
     <property name="fileExtensions" value=""/>
+    <property name="hello" value="shit"/>
     <!-- For detailed checkstyle configuration, see https://github.com/spring-io/nohttp/tree/master/nohttp-checkstyle -->
     <module name="io.spring.nohttp.checkstyle.check.NoHttpCheck">
     </module>
