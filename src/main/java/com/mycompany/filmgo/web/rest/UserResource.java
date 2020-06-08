@@ -4,7 +4,6 @@ import com.mycompany.filmgo.config.Constants;
 import com.mycompany.filmgo.domain.User;
 import com.mycompany.filmgo.repository.UserRepository;
 import com.mycompany.filmgo.security.AuthoritiesConstants;
-import com.mycompany.filmgo.service.MailService;
 import com.mycompany.filmgo.service.UserService;
 import com.mycompany.filmgo.service.dto.UserDTO;
 import com.mycompany.filmgo.web.rest.errors.BadRequestAlertException;
@@ -65,12 +64,9 @@ public class UserResource {
 
     private final UserRepository userRepository;
 
-    private final MailService mailService;
-
-    public UserResource(UserService userService, UserRepository userRepository, MailService mailService) {
+    public UserResource(UserService userService, UserRepository userRepository) {
         this.userService = userService;
         this.userRepository = userRepository;
-        this.mailService = mailService;
     }
 
     /**
@@ -99,7 +95,6 @@ public class UserResource {
             throw new EmailAlreadyUsedException();
         } else {
             User newUser = userService.createUser(userDTO);
-            mailService.sendCreationEmail(newUser);
             return ResponseEntity
                 .created(new URI("/api/users/" + newUser.getLogin()))
                 .headers(

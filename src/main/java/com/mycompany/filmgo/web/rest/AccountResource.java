@@ -3,7 +3,6 @@ package com.mycompany.filmgo.web.rest;
 import com.mycompany.filmgo.domain.User;
 import com.mycompany.filmgo.repository.UserRepository;
 import com.mycompany.filmgo.security.SecurityUtils;
-import com.mycompany.filmgo.service.MailService;
 import com.mycompany.filmgo.service.UserService;
 import com.mycompany.filmgo.service.dto.PasswordChangeDTO;
 import com.mycompany.filmgo.service.dto.UserDTO;
@@ -39,12 +38,9 @@ public class AccountResource {
 
     private final UserService userService;
 
-    private final MailService mailService;
-
-    public AccountResource(UserRepository userRepository, UserService userService, MailService mailService) {
+    public AccountResource(UserRepository userRepository, UserService userService) {
         this.userRepository = userRepository;
         this.userService = userService;
-        this.mailService = mailService;
     }
 
     /**
@@ -62,7 +58,6 @@ public class AccountResource {
             throw new InvalidPasswordException();
         }
         User user = userService.registerUser(managedUserVM, managedUserVM.getPassword());
-        mailService.sendActivationEmail(user);
     }
 
     /**
@@ -156,9 +151,7 @@ public class AccountResource {
     @PostMapping(path = "/account/reset-password/init")
     public void requestPasswordReset(@RequestBody String mail) {
         Optional<User> user = userService.requestPasswordReset(mail);
-        if (user.isPresent()) {
-            mailService.sendPasswordResetMail(user.get());
-        } else {
+        if (user.isPresent()) {} else {
             // Pretend the request has been successful to prevent checking which emails really exist
             // but log that an invalid attempt has been made
             log.warn("Password reset requested for non existing mail");
