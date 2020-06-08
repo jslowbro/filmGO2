@@ -4,7 +4,7 @@ configurations {
         extendsFrom developmentOnly
     }
 }
-
+  
 dependencies {
     developmentOnly "org.springframework.boot:spring-boot-devtools"
     implementation "com.h2database:h2"
